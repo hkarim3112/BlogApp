@@ -1,0 +1,4 @@
+<h1>Pending Posts</h1>
+<%= render partial: "moderator_post", collection: @pending_posts, :as => :post %>
+<h1>Published Posts</h1>
+<%= render partial: "moderator_post", collection: @published_posts, :as => :post %>
