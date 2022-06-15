@@ -2,10 +2,11 @@
 
 class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy]
+  include Pundit::Authorization
 
   # GET /posts or /posts.json
   def index
-    @posts = Post.published
+    @posts = Post.published.includes(:user)
   end
 
   # GET /posts/1 or /posts/1.json
@@ -17,7 +18,9 @@ class PostsController < ApplicationController
   end
 
   # GET /posts/1/edit
-  def edit; end
+  def edit
+    authorize @post
+  end
 
   # POST /posts or /posts.json
   def create

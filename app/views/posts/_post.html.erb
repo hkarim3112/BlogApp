@@ -1,0 +1,29 @@
+<div class = "mb-3 p-2 border border-secondary">
+  <article>
+    <img src="https://bootdey.com/img/Content/bg1.jpg" alt="" class="img-fluid mb30">
+    <div class="post-content">
+      <h3><%= post.title %></h3>
+      <ul class="post-meta list-inline">
+          <li class="list-inline-item">
+              <i class="fa fa-user-circle-o"></i> <%= link_to post.user.name, dashboard_index_path(:user => post.user) %>
+          </li>
+          <li class="list-inline-item">
+              <i class="fa fa-calendar-o"></i> <%= I18n.l(post.created_at, format: :long) %>
+          </li>
+      </ul>
+      <p><%= post.content %></p>
+    </div>
+    <button type="button" class="btn btn-light"><%= link_to 'Show', post %></button>
+    <% if post.user_id == current_user.id %>
+      <button type="button" class="btn btn-light"><%= link_to 'Edit', edit_post_path(post) %></button>
+    <% end %>
+    <% if current_user.moderator? %>
+      <% if post.pending? %>
+       <button type="button" class="btn btn-light"><%= link_to 'Publish', publish_path(:post => post) %></button>
+      <% elsif post.published? %>
+        <button type="button" class="btn btn-danger"><%= link_to 'Unpublish', unpublish_path(:post => post) %></button>
+      <% end %>
+    <% end %>
+    <button type="button" class="btn btn-danger"><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></button>
+  </article>
+</div>

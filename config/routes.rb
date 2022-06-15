@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get 'dashboard/index'
   resources :posts
   # root "posts#index"
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users
   devise_scope :user do
     authenticated :user do
-      root 'posts#index' # , as: :authenticated_root
+      root 'dashboard#index'
+      # root 'posts#index' # , as: :authenticated_root
     end
     unauthenticated do
       root 'devise/sessions#new' # , as: :unauthenticated_root

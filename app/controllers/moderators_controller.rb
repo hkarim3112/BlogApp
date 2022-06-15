@@ -1,24 +1,35 @@
 # frozen_string_literal: true
 
 class ModeratorsController < ApplicationController
-  # after_action :verify_authorized
   def index
-    @pending_posts = Post.pending
-    @published_posts = Post.published
     authorize current_user, policy_class: ModeratorPolicy
+    @status = params[:status] || 'pending'
+    @posts = Post.includes(:user).where('status = :status', status: Post.statuses[@status])
   end
 
   def publish
-    @post = Post.find(params[:post])
     authorize current_user, policy_class: ModeratorPolicy
-    @post.published!
-    redirect_back fallback_location: moderator_path
+    begin
+      @post = Post.find(params[:post])
+      @post.published!
+      redirect_back fallback_location: moderator_path
+    rescue StandardError => e
+      logger.error("Message for the log file #{e.message}")
+      flash[:alert] = 'Invalid Request'
+      redirect_back fallback_location: posts_path
+    end
   end
 
   def unpublish
-    @post = Post.find(params[:post])
     authorize current_user, policy_class: ModeratorPolicy
-    @post.pending!
-    redirect_back fallback_location: moderator_path
+    begin
+      @post = Post.find(params[:post])
+      @post.pending!
+      redirect_back fallback_location: moderator_path
+    rescue StandardError => e
+      logger.error("Message for the log file #{e.message}")
+      flash[:alert] = 'Invalid Request'
+      redirect_back fallback_location: posts_path
+    end
   end
 end

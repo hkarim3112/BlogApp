@@ -1,4 +1,4 @@
-<h1>Pending Posts</h1>
-<%= render partial: "moderator_post", collection: @pending_posts, :as => :post %>
-<h1>Published Posts</h1>
-<%= render partial: "moderator_post", collection: @published_posts, :as => :post %>
+<%= link_to 'Pending Posts', moderator_path(:status => 'pending'), class: "post_actions"%>
+<%= link_to 'Published Posts', moderator_path(:status => 'published'), class: "post_actions"%>
+<h1><%= @status.upcase_first %> Posts</h1>
+<%= render @posts%>

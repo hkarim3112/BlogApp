@@ -18,7 +18,7 @@
 
   <div class="field">
     <%= form.label :content %>
-    <%= form.text_area :content %>
+    <%= trix_editor :post, :content, required: true %>
   </div>
 
   <div class="actions">
