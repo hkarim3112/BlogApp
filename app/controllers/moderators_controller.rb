@@ -4,7 +4,7 @@ class ModeratorsController < ApplicationController
   def index
     authorize current_user, policy_class: ModeratorPolicy
     @status = params[:status] || 'pending'
-    @posts = Post.includes(:user).where('status = :status', status: Post.statuses[@status])
+    @posts = Post.includes(:user).where('status = :status', status: Post.statuses[@status]).order(created_at: :asc)
   end
 
   def publish

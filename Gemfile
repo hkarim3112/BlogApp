@@ -48,6 +48,13 @@ gem 'pundit'
 # trix gem for text editor
 gem 'trix-rails', require: 'trix'
 
+# gem for like unlike functionality
+gem 'acts_as_votable'
+
+# gem for cloudinary cloud service
+gem 'activestorage-cloudinary-service'
+gem 'cloudinary'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

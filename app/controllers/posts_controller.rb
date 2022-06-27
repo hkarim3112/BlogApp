@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[show edit update destroy]
-  include Pundit::Authorization
+  before_action :set_post, only: %i[show edit update destroy vote]
+  respond_to :js, :json, :html
 
   # GET /posts or /posts.json
   def index
-    @posts = Post.published.includes(:user)
+    @posts = Post.published.includes(:user).order(created_at: :desc)
   end
 
   # GET /posts/1 or /posts/1.json
@@ -52,11 +52,21 @@ class PostsController < ApplicationController
 
   # DELETE /posts/1 or /posts/1.json
   def destroy
+    authorize @post
     @post.destroy
 
     respond_to do |format|
       format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def vote
+    authorize @post
+    if !current_user.liked? @post
+      @post.liked_by current_user
+    elsif current_user.liked? @post
+      @post.unliked_by current_user
     end
   end
 
@@ -69,6 +79,6 @@ class PostsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def post_params
-    params.require(:post).permit(:title, :content)
+    params.require(:post).permit(:title, :content) # , image: []
   end
 end

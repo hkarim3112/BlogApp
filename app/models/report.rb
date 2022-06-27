@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Report < ApplicationRecord
-  enum type: {
+  enum report_type: {
     irrelevant: 0,
     abuse: 1,
     spam: 2
