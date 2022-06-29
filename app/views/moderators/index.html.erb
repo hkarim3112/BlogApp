@@ -2,6 +2,7 @@
 <ul class = "nav navbar-nav">
   <li class = "navbar-item"><%= link_to 'Pending Posts', moderator_path(:status => 'pending'), class: "nav-link"%></li>
   <li class = "navbar-item"><%= link_to 'Published Posts', moderator_path(:status => 'published'), class: "nav-link"%></li>
+  <li class = "navbar-item"><%= link_to 'Reports', reports_index_path, class: "nav-link"%></li>
 </ul>
 </nav>
 <h1><%= @status.upcase_first %> Posts</h1>

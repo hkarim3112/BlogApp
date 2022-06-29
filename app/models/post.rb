@@ -11,7 +11,14 @@ class Post < ApplicationRecord
 
   belongs_to :user
   has_many :comments, as: :commentable, dependent: :destroy
-  has_many :likes, as: :likeable, dependent: :destroy
   has_many :reports, as: :reportable, dependent: :destroy
   # has_many_attached :image, dependent: :purge
+
+  def reported?(user_id)
+    get_report(user_id).exists?
+  end
+
+  def get_report(user_id)
+    reports.where(user_id: user_id)
+  end
 end
