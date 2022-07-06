@@ -1,0 +1,6 @@
+<% if current_user.liked? @comment %>
+  $("#comment_<%= @comment.id %>_btn").addClass('liked')
+<% else %>
+  $("#comment_<%= @comment.id %>_btn").removeClass('liked')
+<% end %>
+$("#comment_<%= @comment.id %>_count").html("<%= pluralize(@comment.get_upvotes.size, "like") %>")

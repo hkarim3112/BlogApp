@@ -2,6 +2,7 @@
 
 class Post < ApplicationRecord
   validates :content, :title, presence: true
+  validates :title, length: { maximum: 100 }
   acts_as_votable
 
   enum status: {
