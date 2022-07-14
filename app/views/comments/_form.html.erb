@@ -1,4 +1,4 @@
-<%= form_for [commentable, comment], remote: true do |form|%>
+<%= form_for [commentable, comment], id: id, namespace: id, remote: true do |form|%>
   <div class="field">
     <%= form.trix_editor :content, required: true %>
   </div>

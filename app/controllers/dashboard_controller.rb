@@ -11,4 +11,8 @@ class DashboardController < ApplicationController
     @reports = current_user.reports
     render file: 'reports/index.html.erb'
   end
+
+  def user_suggestions
+    @suggestions = current_user.comments.where(suggestion: true).order(created_at: :desc)
+  end
 end

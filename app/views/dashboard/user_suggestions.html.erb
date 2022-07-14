@@ -1,0 +1,35 @@
+<%= link_to 'javascript:history.back()' do%>
+  <i class="fa fa-arrow-left"> Back</i>
+<% end %>
+<br><br>
+
+<% @suggestions.each do |suggestion| %>
+<div id = "comments-section">
+  <div class = "container">
+    <div class = "row">
+     <div class="media border mb-1 ml-5 p-2 w-100 rounded">
+        <div class="media-body">
+          <h4 class="media-heading title"><%= suggestion.user.name %></h4>
+          <hr>
+          <%= link_to 'View Post', suggestion.commentable %>
+          <p class="comment-body">
+            <%= suggestion.content.html_safe %><br>
+            <div id = "comment-buttons">
+              <% if owner?(suggestion) || current_user.moderator? || commentable_owner?(suggestion) %>
+                <b> | </b>
+                <%= link_to 'Delete', suggestion, class: 'crud-link', method: :delete, data: { confirm: 'Are you sure?' }, remote: true %>
+              <% end %>
+              <% if suggestion.commentable_type == "Post" %>
+                <b> | </b>
+                <%= link_to "reply", new_comment_comment_path(suggestion), remote: true, class: 'crud-link'%>
+              <% end %>
+            </div>
+          </p>
+          <div id = 'comment_<%= suggestion.id %>_reply' style = 'display: none'><h3>loading failed</h3></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% end %>
