@@ -5,24 +5,19 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <% if current_user %>
-      <%= current_user.email %> <br>
-      <%= link_to "Logout", destroy_user_session_path, method: :delete %>
-      <br>
-      <%= link_to "Profile", edit_user_registration_path %>
-      <%= link_to "Moderator", moderator_path %>
-      <%= link_to "Home",  posts_path%>
-    <% else %>
-      <%= link_to "Login", new_user_session_path %>
-    <% end %>
+    <%= render 'layouts/navbar' %>
 
     <p id="notice"><%= notice %></p>
     <p id="alert"><%= alert %></p>
-    <%= yield %>
+    <div class="container">
+      <%= yield %>
+    </div>
   </body>
 </html>

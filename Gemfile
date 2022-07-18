@@ -29,6 +29,13 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+# bootstrap gem for styling
+gem 'bootstrap', '~> 4.0.0.alpha6'
+gem 'bootstrap-sass'
+
+# jquery rails gem
+gem 'jquery-rails'
+
 # devise gem for authentication
 gem 'devise'
 
@@ -37,6 +44,9 @@ gem 'rails_admin'
 
 # pundit gem for authorization
 gem 'pundit'
+
+# trix gem for text editor
+gem 'trix-rails', require: 'trix'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/posts">BlogApp</a>
+    </div>
+    <% if current_user %>
+      <ul class="nav navbar-nav">
+        <li class = "navbar-item"><%= link_to "Home",  posts_path, class: 'nav-link'%></li>
+        <% if current_user.moderator? %>
+          <li class = "navbar-item"><%= link_to "Moderator-Panel", moderator_path, class: 'nav-link' %></li>
+        <% elsif current_user.admin? %>
+          <li class = "navbar-item"><%= link_to "Admin-Panel", '/admin', class: 'nav-link' %></li>
+        <% end %>
+        <li class = "navbar-item"><%= link_to current_user.name, dashboard_index_path, class: 'nav-link' %></li>
+        <li class= "navbar-item"><%=  %></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class = "navbar-item"><%= link_to "Logout", destroy_user_session_path, method: :delete, class: 'nav-link' %></li>
+      </ul>
+    <% else %>
+      <ul class="nav navbar-nav navbar-right">
+        <li class = "navbar-item"><%= link_to "Login", new_user_session_path, class: 'nav-link' %></li>
+      </ul>
+    <% end %>
+  </div>
+</nav>

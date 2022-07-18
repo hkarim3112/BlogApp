@@ -1,0 +1,6 @@
+<h1>Dashboard#index</h1>
+<% if @user == current_user.id %>
+  <%= link_to "Profile", edit_user_registration_path%>
+<% end %>
+
+<%= render @posts %>
