@@ -1,10 +1,6 @@
-# README
+Blog App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
+System dependencies
 * Ruby version
 ~ 2.7.1p83
 
@@ -14,29 +10,22 @@ Things you may want to cover:
 * Postgres version
 ~ 14.1
 
-* System dependencies
-.
+Features
+* user can signin/signup
+* user can upload posts
+* user can report posts
+* user can give suggestions to other's posts
+* user can edit, delete,like posts
+* user can be normal user, moderator, or admin
+* moderator has authority to publish unpublish or delete the post.
+* admin can manage everything from AdminPanel
 
-* Configuration
+Configuration
+* add smpt mailer configurations for email confirmations
 
-add smpt mailer configurations for email confirmations
+Database creation
+* run rails db:create to create pg database
 
-* Database creation
-
-run rails db:create to create pg database
-
-* Database initialization
-
-run rails db:migrate to initialize database
-run rails db:seed to initialize records
-
-* How to run the test suite
-.
-
-* Services (job queues, cache servers, search engines, etc.)
-.
-
-* Deployment instructions
-.
-
-* ...
+Database initialization
+* run rails db:migrate to initialize database
+* run rails db:seed to initialize records
