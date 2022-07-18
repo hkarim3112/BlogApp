@@ -11,16 +11,22 @@ Things you may want to cover:
 * Rails version
 ~ 5.2
 
+* Postgres version
+~ 14.1
+
 * System dependencies
 .
 
 * Configuration
+
 add smpt mailer configurations for email confirmations
 
 * Database creation
+
 run rails db:create to create pg database
 
 * Database initialization
+
 run rails db:migrate to initialize database
 run rails db:seed to initialize records
 
