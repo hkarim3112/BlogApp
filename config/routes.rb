@@ -13,5 +13,8 @@ Rails.application.routes.draw do
       root 'devise/sessions#new' # , as: :unauthenticated_root
     end
   end
+  get '/moderator', to: 'moderators#index'
+  get '/publish', to: 'moderators#publish'
+  get '/unpublish', to: 'moderators#unpublish'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
