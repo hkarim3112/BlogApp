@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[show edit update destroy vote]
+  before_action :set_post, only: %i[show edit update destroy vote suggestions]
   respond_to :js, :json, :html
 
   # GET /posts or /posts.json
@@ -11,6 +11,8 @@ class PostsController < ApplicationController
 
   # GET /posts/1 or /posts/1.json
   def show; end
+
+  def suggestions; end
 
   # GET /posts/new
   def new

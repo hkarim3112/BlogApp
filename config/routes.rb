@@ -35,10 +35,13 @@ Rails.application.routes.draw do
   get 'reports/index'
   get 'dashboard/index'
   get 'dashboard/user_report'
+  get 'dashboard/user_suggestions'
 
   resources :posts do
     member do
       put 'like' => 'posts#vote'
+      get 'new_suggestion' => 'comments#new_suggestion'
+      get 'suggestions' => 'posts#suggestions'
     end
     resources :reports, only: %i[new create]
     resources :comments, only: %i[create]

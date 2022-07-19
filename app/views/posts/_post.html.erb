@@ -1,17 +1,10 @@
 <div class = "mb-3 p-2 border border-secondary">
   <article>
-    <!--
-        <div class = "row">
-          <%# <% post.image.each do |image| %> %>
-            <div class = "m-3", style = "width: 200px; height: 200px">
-              <%# <%= image_tag(image, style:'width:100%')  %> %>
-            </div>
-            <br>
-          <%# <% end %> %>
-        </div>
-    -->
     <div class = <%= page %>>
       <h3><%= post.title %></h3>
+      <% if page != "page-suggestions" && owner?(post) %>
+        <%= link_to "suggestions", suggestions_post_path(post) %>
+      <% end %>
       <ul class="post-meta list-inline">
           <li class="list-inline-item">
               <i class="fa fa-user-circle-o"></i> <%= link_to post.user.name, dashboard_index_path(:user => post.user) %>
@@ -30,7 +23,7 @@
 
     <br><br>
 
-    <% if page == "post-index" %>
+    <% if page != "post-show" %>
       <button type="button" class="btn btn-light"><%= link_to 'Show', post %></button>
     <% end %>
 
@@ -53,6 +46,8 @@
         <% elsif %>
           <button type="button" class="btn btn-warning"><%= link_to 'Report', new_post_report_path(:post_id => post.id) %></button>
         <% end %>
+
+        <button type="button" class="btn btn-light"><%= link_to 'Suggestion', new_suggestion_post_path(post) %></button>
       <% end %>
 
     <% end %>
@@ -77,7 +72,14 @@
     <hr>
     <h3>Add Comments</h3><br>
     <div id = 'comments-section'>
-      <%= render partial: "comments/comment_section", locals: {commentable: post, comment: Comment.new}%>
+      <%= render partial: "comments/comment_section", locals: {commentable: post, comment: Comment.new, id: "post_#{post.id}"}%>
+    </div>
+  <% end %>
+  <% if page == "post-suggestions" %>
+    <br><hr>
+    <h3>Suggestions</h3>
+    <div id = 'comments-section' >
+      <%= render partial: "comments/comment", locals: {commentable: post, suggestion: true}%>
     </div>
   <% end %>
 </div>

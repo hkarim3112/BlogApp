@@ -22,6 +22,15 @@ RailsAdmin.config do |config|
     end
   end
 
+  # config.excluded_models << ActiveStorage::Attachment
+  config.model 'ActiveStorage::Blob' do
+    visible false
+  end
+
+  config.model 'ActiveStorage::Attachment' do
+    visible false
+  end
+
   # making application controller parent of RailsAdmin MainController
   config.parent_controller = '::ApplicationController'
 
@@ -37,11 +46,11 @@ RailsAdmin.config do |config|
   config.actions do
     dashboard                     # mandatory
     index                         # mandatory
-    new
+    # new
     export
     bulk_delete
     show
-    edit
+    # edit
     delete
     show_in_app
 

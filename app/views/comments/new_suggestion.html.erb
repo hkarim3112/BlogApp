@@ -1,0 +1,17 @@
+<%= link_to 'javascript:history.back()' do%>
+  <i class="fa fa-arrow-left"> Back</i>
+<% end %>
+<br><br>
+
+<h3>Suggestion</h3>
+<%= form_for [@commentable, @comment] do |form|%>
+  <div class="field">
+    <%= form.trix_editor :content, required: true %>
+  </div>
+  <div class="field">
+    <%= form.hidden_field :suggestion, value: true %>
+  </div>
+  <div class="actions">
+    <%= form.submit "Create Suggestion" %>
+  </div>
+<% end %>

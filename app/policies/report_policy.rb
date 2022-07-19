@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ReportPolicy < ApplicationPolicy
-  attr_reader :user, :report
+  attr_accessor :user, :report
 
   def initialize(user, report)
     @user = user
@@ -30,7 +30,7 @@ class ReportPolicy < ApplicationPolicy
   end
 
   def create?
-    reportable_auth && @report.user_id != @user.id && !@report.reported?(@user.id)
+    @report.user_id != @user.id && !@report.reported?(@user.id) && reportable_auth
   end
 
   private
@@ -40,7 +40,9 @@ class ReportPolicy < ApplicationPolicy
     when 'Post'
       @report.published?
     when 'Comment'
-      @report.commentable.published?
+      @report = @report.commentable
+      reportable_auth
+      # @report.commentable.published?
     end
   end
 

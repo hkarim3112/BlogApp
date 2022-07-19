@@ -11,10 +11,10 @@ class CommentsController < ApplicationController
 
   def update
     authorize @comment
-    respond_to do |format|
-      if @comment.update(comment_params)
-        format.html { redirect_to @comment.commentable, notice: 'Comment Updated.' }
-      else
+    if @comment.update(comment_params)
+      update_page
+    else
+      respond_to do |format|
         format.html { render :edit, status: :unprocessable_entity }
       end
     end
@@ -22,16 +22,18 @@ class CommentsController < ApplicationController
 
   def new
     @comment = Comment.new
+    @toggle = true
   end
 
   def create
     authorize @commentable, policy_class: CommentPolicy
     @comment = @commentable.comments.new(comment_params)
     @comment.user = current_user
-    respond_to do |format|
-      if @comment.save
-        format.js { render inline: '$("#comments-section").load(location.href+" #comments-section>*","");' }
-      else
+    # @comment.suggestion = true if params[:suggestion] == 'true'
+    if @comment.save
+      create_page
+    else
+      respond_to do |format|
         format.js { render :create, status: :unprocessable_entity }
       end
     end
@@ -54,7 +56,39 @@ class CommentsController < ApplicationController
     end
   end
 
+  # def suggestions; end
+
+  def new_suggestion
+    @comment = Comment.new
+    @commentable = Post.find(params[:id])
+  end
+
   private
+
+  def update_page
+    respond_to do |format|
+      case @comment.commentable_type
+      when 'Post'
+        format.html { redirect_to @comment.commentable, notice: 'comment updated.' }
+      when 'Comment'
+        format.html { redirect_to @comment.commentable.commentable, notice: 'comment updated.' }
+      end
+    end
+  end
+
+  def create_page
+    respond_to do |format|
+      case @comment.commentable_type
+      when 'Post'
+        format.html { redirect_to @commentable }
+        format.js { render inline: '$("#comments-section").load(location.href+" #comments-section>*","");' }
+      when 'Comment'
+        @comment = Comment.new
+        @toggle = false
+        format.js { render :new }
+      end
+    end
+  end
 
   def set_comment
     @comment = Comment.find(params[:id])
@@ -69,6 +103,6 @@ class CommentsController < ApplicationController
   end
 
   def comment_params
-    params.require(:comment).permit(:content)
+    params.require(:comment).permit(:content, :suggestion)
   end
 end

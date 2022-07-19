@@ -1,8 +1,10 @@
-if(!$('#comment_<%= @commentable.id %>_reply').is(':visible')){
+if(!$('#comment_<%= @commentable.id %>_reply').is(':visible') || <%= !@toggle %>){
   $('#comment_<%= @commentable.id %>_reply').html(`
-    <hr><div id="reply" class="ml-5"><h3>New rendered</h3><br>
-      <%= render partial: "comments/comment_section", locals: {commentable: @commentable, comment: @comment}%>
+    <hr><div id="reply" class="ml-5"><h3>Reply</h3><br>
+      <%= render partial: "comments/comment_section", locals: {commentable: @commentable, comment: @comment, id: "comment_#{@commentable.id}"}%>
     </div>
   `);
 }
-$('#comment_<%= @commentable.id %>_reply').toggle();
+if( <%= @toggle %> ){
+  $('#comment_<%= @commentable.id %>_reply').toggle();
+}

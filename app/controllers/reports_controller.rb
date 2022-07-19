@@ -49,13 +49,19 @@ class ReportsController < ApplicationController
   private
 
   def page
-    respond_to do |format|
-      case @report.reportable_type
+    case @report.reportable_type
+    when 'Post'
+      @go_to_page = @report.reportable
+    when 'Comment'
+      case @report.reportable.commentable_type
       when 'Post'
-        format.html { redirect_to @report.reportable, notice: 'Reported.' }
+        @go_to_page = @report.reportable.commentable
       when 'Comment'
-        format.html { redirect_to @report.reportable.commentable, notice: 'Reported.' }
+        @go_to_page = @report.reportable.commentable.commentable
       end
+    end
+    respond_to do |format|
+      format.html { redirect_to @go_to_page, notice: 'Reported.' }
     end
   end
 

@@ -39,7 +39,14 @@ class CommentPolicy < ApplicationPolicy
   end
 
   def commentable_owner?
-    @comment.commentable.user_id == @user.id
+    # @comment.commentable.user_id == @user.id
+
+    case @comment.commentable_type
+    when 'Post'
+      @comment.commentable.user_id == @user.id
+    when 'Comment'
+      @comment.commentable.user_id == @user.id || @comment.commentable.commentable.user_id == @user.id
+    end
   end
 
   class Scope < Scope
