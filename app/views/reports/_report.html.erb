@@ -1,0 +1,11 @@
+<tr>
+  <th scope = "row"><%= report.id %></td>
+  <td><%= report.report_type %></td>
+  <td class = "reportable-cell"><%= link_to report.reportable_type + "_" + report.reportable_id.to_s, post_path(:id => report.reportable_id) %></td>
+  <td><%= report.user.name %></td>
+  <td class = "delete-report-cell">
+    <%= link_to post_report_path(:post_id => report.reportable_id, :id => report.id), method: :delete, data: { confirm: 'Are you sure?' } do%>
+      <i class = 'fa fa-trash'> Delete Report</i>
+    <% end %>
+  </td>
+</tr>
