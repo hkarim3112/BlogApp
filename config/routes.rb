@@ -1,19 +1,50 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  concern :reportable do
-    resources :reports, except: [:show]
+  # concern :reportable do
+  #   resource :reports, except: %i[show], shallow: true
+  # end
+
+  resources :reports, except: %i[new create show index]
+
+  resources :comments, except: %i[new create show index] do
+    member do
+      put 'like' => 'comments#vote'
+    end
+    resources :reports, only: %i[new create]
+    resources :comments, only: %i[new create]
   end
+
+  # concern :commentable do
+  #   resource :comments, shallow: true do
+  #     member do
+  #       put 'like' => 'comments#vote'
+  #     end
+  #     concerns :reportable
+  #   end
+  # end
+
+  # resources :comments, shallow: true, path: '/' do
+  #   member do
+  #     put 'like' => 'comments#vote'
+  #   end
+  #   concerns :commentable
+  #   concerns :reportable
+  # end
 
   get 'reports/index'
   get 'dashboard/index'
   get 'dashboard/user_report'
+
   resources :posts do
     member do
       put 'like' => 'posts#vote'
     end
-    concerns :reportable
+    resources :reports, only: %i[new create]
+    resources :comments, only: %i[create]
+    # concerns :reportable, :commentable
   end
+
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users
   devise_scope :user do
@@ -25,6 +56,7 @@ Rails.application.routes.draw do
       root 'devise/sessions#new' # , as: :unauthenticated_root
     end
   end
+
   get '/moderator', to: 'moderators#index'
   get '/publish', to: 'moderators#publish'
   get '/unpublish', to: 'moderators#unpublish'

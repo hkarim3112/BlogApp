@@ -10,7 +10,7 @@
           <%# <% end %> %>
         </div>
     -->
-    <div class="post-content">
+    <div class = <%= page %>>
       <h3><%= post.title %></h3>
       <ul class="post-meta list-inline">
           <li class="list-inline-item">
@@ -26,17 +26,19 @@
 
     <hr>
 
-    <span id = "post_<%= post.id %>_count"><%= pluralize(post.get_upvotes.size, "like") %></span>
+    <span id = "post_<%= post.id %>_count"><%= pluralize(post.cached_votes_up, "like") %></span>
 
     <br><br>
 
-    <button type="button" class="btn btn-light"><%= link_to 'Show', post %></button>
+    <% if page == "post-index" %>
+      <button type="button" class="btn btn-light"><%= link_to 'Show', post %></button>
+    <% end %>
 
     <% if post.published? %>
       <%= link_to like_post_path(post), id: "post_#{post.id}_btn", class: (current_user.liked? post) ? 'like-btn liked' : 'like-btn', method: :put, remote: :true do %>
         <i class = 'fa fa-thumbs-up'> Like</i>
       <% end %>
-      <% if post.user_id != current_user.id %>
+      <% if !owner?(post) %>
         <% if post.reported? current_user.id %>
           <% report_id =  post.get_report(current_user.id).ids%>
           <div class="btn-group">
@@ -44,8 +46,8 @@
               Reported
             </button>
             <div class="dropdown-menu">
-              <%= link_to 'Edit Report', edit_post_report_path(:id => report_id, :post_id => post.id), class: 'dropdown-item' %>
-              <%= link_to 'Delete Report', post_report_path(:id => report_id, :post_id => post.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item' %>
+              <%= link_to 'Edit Report', edit_report_path(:id => report_id), class: 'dropdown-item' %>
+              <%= link_to 'Delete Report', report_path(:id => report_id), method: :delete, data: { confirm: 'Are you sure?' }, remote: true, class: 'dropdown-item' %>
             </div>
           </div>
         <% elsif %>
@@ -70,6 +72,12 @@
     <% if post.user_id == current_user.id || current_user.moderator? %>
       <button type="button" class="btn btn-danger"><%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %></button>
     <% end %>
-
   </article>
+  <% if page == "post-show" && post.published? %>
+    <hr>
+    <h3>Add Comments</h3><br>
+    <div id = 'comments-section'>
+      <%= render partial: "comments/comment_section", locals: {commentable: post, comment: Comment.new}%>
+    </div>
+  <% end %>
 </div>

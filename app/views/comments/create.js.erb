@@ -1,0 +1,21 @@
+if(!$('#error_explanation').length){
+  $('#comments-section').prepend(`<div id="error_explanation"></div> `);
+}
+<% if @comment.errors.any? %>
+  $('#error_explanation').html(`
+      <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+
+      <ul>
+        <% @comment.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+  `);
+<% else %>
+  $('#error_explanation').html(`
+    <h2>Unknown Error Occured</h2>
+    <ul>
+      <li>Failed to save comment.</li>
+    </ul>
+  `);
+<% end %>

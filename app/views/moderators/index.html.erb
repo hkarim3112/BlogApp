@@ -9,5 +9,5 @@
  <% if @posts.blank? %>
   <h6>No posts found...!</h6>
  <% else %>
-  <%= render @posts%>
+  <%= render @posts, page: "post-index"%>
 <% end %>

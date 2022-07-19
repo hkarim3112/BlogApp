@@ -1,0 +1,8 @@
+if(!$('#comment_<%= @commentable.id %>_reply').is(':visible')){
+  $('#comment_<%= @commentable.id %>_reply').html(`
+    <hr><div id="reply" class="ml-5"><h3>New rendered</h3><br>
+      <%= render partial: "comments/comment_section", locals: {commentable: @commentable, comment: @comment}%>
+    </div>
+  `);
+}
+$('#comment_<%= @commentable.id %>_reply').toggle();
