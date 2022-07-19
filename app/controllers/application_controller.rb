@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   protected
 
@@ -19,6 +20,10 @@ class ApplicationController < ActionController::Base
 
   def user_not_authorized
     flash[:alert] = 'You are not authorized to perform this action.'
-    redirect_to main_app.root_path
+    redirect_back fallback_location: root_path
+  end
+
+  def record_not_found
+    render file: 'public/404.html', status: :not_found, layout: false
   end
 end

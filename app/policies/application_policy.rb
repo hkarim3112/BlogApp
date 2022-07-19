@@ -8,51 +8,28 @@ class ApplicationPolicy
     @record = record
   end
 
-  # rails_admin actions start
   def index?
-    @user.admin?
-  end
-
-  def dashboard?
-    @user.admin?
-  end
-
-  def export?
-    @user.admin?
-  end
-
-  def bulk_delete?
-    @user.admin?
-  end
-
-  def delete?
-    @user.admin?
-  end
-
-  def show_in_app?
-    @user.admin?
-  end
-
-  def edit?
-    @user.admin?
-  end
-
-  def new?
-    @user.admin?
+    false
   end
 
   def show?
-    @user.admin?
+    false
   end
-
-  # rails_admin actions end
 
   def create?
     false
   end
 
+  def new?
+    create?
+  end
+
   def update?
     false
+  end
+
+  def edit?
+    update?
   end
 
   def destroy?

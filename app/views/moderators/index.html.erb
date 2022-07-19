@@ -1,4 +1,12 @@
-<%= link_to 'Pending Posts', moderator_path(:status => 'pending'), class: "post_actions"%>
-<%= link_to 'Published Posts', moderator_path(:status => 'published'), class: "post_actions"%>
+<nav class = "navbar-expand-sm">
+<ul class = "nav navbar-nav">
+  <li class = "navbar-item"><%= link_to 'Pending Posts', moderator_path(:status => 'pending'), class: "nav-link"%></li>
+  <li class = "navbar-item"><%= link_to 'Published Posts', moderator_path(:status => 'published'), class: "nav-link"%></li>
+</ul>
+</nav>
 <h1><%= @status.upcase_first %> Posts</h1>
-<%= render @posts%>
+ <% if @posts.blank? %>
+  <h6>No posts found...!</h6>
+ <% else %>
+  <%= render @posts%>
+<% end %>

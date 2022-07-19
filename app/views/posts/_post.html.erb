@@ -1,22 +1,57 @@
 <div class = "mb-3 p-2 border border-secondary">
   <article>
-    <img src="https://bootdey.com/img/Content/bg1.jpg" alt="" class="img-fluid mb30">
+<!--
+    <div class = "row">
+      <%# <% post.image.each do |image| %> %>
+        <div class = "m-3", style = "width: 200px; height: 200px">
+          <%# <%= image_tag(image, style:'width:100%')  %> %>
+        </div>
+        <br>
+      <%# <% end %> %>
+    </div>
+-->
     <div class="post-content">
       <h3><%= post.title %></h3>
       <ul class="post-meta list-inline">
           <li class="list-inline-item">
               <i class="fa fa-user-circle-o"></i> <%= link_to post.user.name, dashboard_index_path(:user => post.user) %>
           </li>
+          <b>/&nbsp</b>
           <li class="list-inline-item">
               <i class="fa fa-calendar-o"></i> <%= I18n.l(post.created_at, format: :long) %>
           </li>
       </ul>
-      <p><%= post.content %></p>
+      <p><%= post.content.html_safe %></p>
     </div>
+
+    <hr>
+
+    <span id = "post_<%= post.id %>_count"><%= pluralize(post.get_upvotes.size, "like") %></span>
+
+    <br><br>
+
     <button type="button" class="btn btn-light"><%= link_to 'Show', post %></button>
+
+    <% if post.published? %>
+      <%= link_to like_post_path(post), id: "post_#{post.id}_btn", class: (current_user.liked? post) ? 'like-btn liked' : 'like-btn', method: :put, remote: :true do %>
+        <i class = 'fa fa-thumbs-up'> Like</i>
+      <% end %>
+      <div class="btn-group">
+        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Report
+        </button>
+        <div class="dropdown-menu">
+          <% Report.report_types.keys.each do |key| %>
+            <%= link_to key, "#", class: 'dropdown-item' %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
     <% if post.user_id == current_user.id %>
       <button type="button" class="btn btn-light"><%= link_to 'Edit', edit_post_path(post) %></button>
     <% end %>
+
     <% if current_user.moderator? %>
       <% if post.pending? %>
        <button type="button" class="btn btn-light"><%= link_to 'Publish', publish_path(:post => post) %></button>
@@ -24,6 +59,10 @@
         <button type="button" class="btn btn-danger"><%= link_to 'Unpublish', unpublish_path(:post => post) %></button>
       <% end %>
     <% end %>
-    <button type="button" class="btn btn-danger"><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></button>
+
+    <% if post.user_id == current_user.id || current_user.moderator? %>
+      <button type="button" class="btn btn-danger"><%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %></button>
+    <% end %>
+
   </article>
 </div>

@@ -1,6 +1,15 @@
-<h1>Dashboard#index</h1>
+<h1>User Dashboard</h1>
 <% if @user == current_user.id %>
-  <%= link_to "Profile", edit_user_registration_path%>
+  <div class = "row mb-3 justify-content-center text-center">
+    <div class = "border border-secondary w-50 m-1 p-2">
+      <i class="fa fa-user-secret fa-5x" aria-hidden="true"></i>
+      <br>
+      <%= current_user.name.upcase_first %>
+      <br>
+      <%= link_to "Profile", edit_user_registration_path%>
+    </div>
+
+  </div>
 <% end %>
 
 <%= render @posts %>

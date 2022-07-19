@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PostPolicy < ApplicationPolicy
-  attr_reader :user, :record
+  attr_reader :user, :post
 
   def initialize(user, post)
     @user = user
@@ -30,21 +30,14 @@ class PostPolicy < ApplicationPolicy
   end
 
   def destroy?
-    true
+    update? || @user.moderator?
   end
 
   def create?
     true
   end
 
-  class Scope < Scope
-    # NOTE: Be explicit about which records you allow access to!
-    def resolve
-      if @user.admin?
-        super
-      else
-        scope.all
-      end
-    end
+  def vote?
+    @post.published?
   end
 end

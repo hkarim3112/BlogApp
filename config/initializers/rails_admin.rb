@@ -13,7 +13,14 @@ RailsAdmin.config do |config|
   # config.authorize_with :cancancan
 
   ## == Pundit ==
-  config.authorize_with :pundit
+  # config.authorize_with :pundit
+
+  config.authorize_with do
+    unless current_user.admin?
+      redirect_to main_app.root_path
+      flash[:alert] = 'You are not authorized to perform this action.'
+    end
+  end
 
   # making application controller parent of RailsAdmin MainController
   config.parent_controller = '::ApplicationController'

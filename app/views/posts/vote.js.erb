@@ -1,0 +1,6 @@
+<% if current_user.liked? @post %>
+  $("#post_<%= @post.id %>_btn").addClass('liked');
+<% else %>
+  $("#post_<%= @post.id %>_btn").removeClass('liked');
+<% end %>
+$("#post_<%= @post.id %>_count").html("<%= pluralize(@post.get_upvotes.size, "like") %>")
