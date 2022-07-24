@@ -14,9 +14,7 @@ class CommentsController < ApplicationController
     if @comment.update(comment_params)
       update_page
     else
-      respond_to do |format|
-        format.html { render :edit, status: :unprocessable_entity }
-      end
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -26,16 +24,13 @@ class CommentsController < ApplicationController
   end
 
   def create
-    authorize @commentable, policy_class: CommentPolicy
     @comment = @commentable.comments.new(comment_params)
     @comment.user = current_user
-    # @comment.suggestion = true if params[:suggestion] == 'true'
+    authorize @comment, policy_class: CommentPolicy
     if @comment.save
       create_page
     else
-      respond_to do |format|
-        format.js { render :create, status: :unprocessable_entity }
-      end
+      render :create, status: :unprocessable_entity
     end
   end
 
@@ -43,9 +38,7 @@ class CommentsController < ApplicationController
     authorize @comment
     @comment.destroy
 
-    respond_to do |format|
-      format.js { render inline: '$("#comments-section").load(location.href+" #comments-section>*","");' }
-    end
+    render inline: '$("#comments-section").load(location.href+" #comments-section>*","");'
   end
 
   def vote
@@ -56,8 +49,6 @@ class CommentsController < ApplicationController
     end
   end
 
-  # def suggestions; end
-
   def new_suggestion
     @comment = Comment.new
     @commentable = Post.find(params[:id])
@@ -66,13 +57,11 @@ class CommentsController < ApplicationController
   private
 
   def update_page
-    respond_to do |format|
-      case @comment.commentable_type
-      when 'Post'
-        format.html { redirect_to @comment.commentable, notice: 'comment updated.' }
-      when 'Comment'
-        format.html { redirect_to @comment.commentable.commentable, notice: 'comment updated.' }
-      end
+    case @comment.commentable_type
+    when 'Post'
+      redirect_to @comment.commentable, notice: 'comment updated.'
+    when 'Comment'
+      redirect_to @comment.commentable.commentable, notice: 'comment updated.'
     end
   end
 

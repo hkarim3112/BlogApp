@@ -21,38 +21,28 @@ class CommentPolicy < ApplicationPolicy
     update? || @user.moderator? || commentable_owner?
   end
 
-  # in create? function, comment is equal to commentable
   def create?
+    @commentable = @comment.commentable
     post_auth
-    # @comment.published?
   end
 
   private
 
   def post_auth
-    case @comment.class.name
+    case @commentable.class.name
     when 'Post'
-      @comment.published?
+      @commentable.published?
     when 'Comment'
-      @comment.commentable.published?
+      @commentable.commentable.published?
     end
   end
 
   def commentable_owner?
-    # @comment.commentable.user_id == @user.id
-
     case @comment.commentable_type
     when 'Post'
       @comment.commentable.user_id == @user.id
     when 'Comment'
       @comment.commentable.user_id == @user.id || @comment.commentable.commentable.user_id == @user.id
     end
-  end
-
-  class Scope < Scope
-    # NOTE: Be explicit about which records you allow access to!
-    # def resolve
-    #   scope.all
-    # end
   end
 end

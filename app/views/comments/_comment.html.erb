@@ -8,12 +8,12 @@
           <p class="comment-body">
             <%= comment.content.html_safe %><br>
             <hr>
-            <% if !suggestion && !suggestion_reply?(commentable) %>
+            <% if suggestion?(suggestion, commentable) %>
               <span id = "comment_<%= comment.id %>_count"><%= pluralize(comment.cached_votes_up, "like") %></span>
               <hr>
             <% end %>
             <div id = "comment-buttons">
-              <% if !suggestion && !suggestion_reply?(commentable) %>
+              <% if suggestion?(suggestion, commentable) %>
                 <%= link_to like_comment_path(comment), id: "comment_#{comment.id}_btn", class: (current_user.liked? comment) ? 'like-btn liked' : 'like-btn', method: :put, remote: :true do %>
                   <i class = 'fa fa-thumbs-up'> Like</i>
                 <% end %>
@@ -21,7 +21,7 @@
                 <% if !owner?(comment) %>
                   <b> | </b>
                   <% if reported?(comment) %>
-                    <% report_id = get_report(comment).ids%>
+                    <% report_id = find_report(comment).ids%>
                     <div class="btn-group">
                       <a class="crud-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Reported
@@ -31,18 +31,18 @@
                         <%= link_to 'Delete Report', report_path(:id => report_id), method: :delete, data: { confirm: 'Are you sure?' }, remote: true, class: 'dropdown-item' %>
                       </div>
                     </div>
-                  <% elsif %>
+                  <% else %>
                     <%= link_to 'Report', new_comment_report_path(:comment_id => comment.id), class: 'crud-link' %>
                   <% end %>
                 <% end %>
               <% end %>
 
-              <% if owner?(comment) || current_user.moderator? || commentable_owner?(commentable) %>
+              <% if delete_btn?(comment, commentable) %>
                 <b> | </b>
                 <%= link_to 'Delete', comment, class: 'crud-link', method: :delete, data: { confirm: 'Are you sure?' }, remote: true %>
               <% end %>
 
-              <% if owner?(comment) && !suggestion_reply?(commentable) %>
+              <% if edit_btn?(comment, commentable) %>
                 <b> | </b>
                 <%= link_to 'Edit', edit_comment_path(comment), class: 'crud-link' %>
               <% end %>

@@ -7,8 +7,8 @@
       <%= current_user.name.upcase_first %>
       <br>
       <%= link_to "Profile", edit_user_registration_path, type: "button", class: "btn btn-light border" %>
-      <%= link_to "My Report", dashboard_user_report_path, type: "button", class: "btn btn-light border" %>
-      <%= link_to "My Suggestions", dashboard_user_suggestions_path, type: "button", class: "btn btn-light border" %>
+      <%= link_to "My Report", user_report_path, type: "button", class: "btn btn-light border" %>
+      <%= link_to "My Suggestions", user_suggestions_path, type: "button", class: "btn btn-light border" %>
     </div>
   </div>
 <% end %>

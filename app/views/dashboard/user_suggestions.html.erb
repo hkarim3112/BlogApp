@@ -1,7 +1,4 @@
-<%= link_to 'javascript:history.back()' do%>
-  <i class="fa fa-arrow-left"> Back</i>
-<% end %>
-<br><br>
+<%= render partial: 'posts/back' %>
 
 <% @suggestions.each do |suggestion| %>
 <div id = "comments-section">
@@ -15,7 +12,7 @@
           <p class="comment-body">
             <%= suggestion.content.html_safe %><br>
             <div id = "comment-buttons">
-              <% if owner?(suggestion) || current_user.moderator? || commentable_owner?(suggestion) %>
+              <% if delete_btn?(suggestion, suggestion.commentable) %>
                 <b> | </b>
                 <%= link_to 'Delete', suggestion, class: 'crud-link', method: :delete, data: { confirm: 'Are you sure?' }, remote: true %>
               <% end %>

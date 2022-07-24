@@ -3,4 +3,4 @@
 <% else %>
   $("#comment_<%= @comment.id %>_btn").removeClass('liked')
 <% end %>
-$("#comment_<%= @comment.id %>_count").html("<%= pluralize(@comment.get_upvotes.size, "like") %>")
+$("#comment_<%= @comment.id %>_count").html("<%= pluralize(@comment.cached_votes_up, "like") %>")

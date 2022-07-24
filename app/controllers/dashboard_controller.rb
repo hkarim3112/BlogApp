@@ -9,7 +9,6 @@ class DashboardController < ApplicationController
 
   def user_report
     @reports = current_user.reports
-    render file: 'reports/index.html.erb'
   end
 
   def user_suggestions

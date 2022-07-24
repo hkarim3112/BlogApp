@@ -2,7 +2,7 @@
   <article>
     <div class = <%= page %>>
       <h3><%= post.title %></h3>
-      <% if page != "page-suggestions" && owner?(post) %>
+      <% if suggestion_btn?(page, post) %>
         <%= link_to "suggestions", suggestions_post_path(post) %>
       <% end %>
       <ul class="post-meta list-inline">
@@ -33,7 +33,7 @@
       <% end %>
       <% if !owner?(post) %>
         <% if post.reported? current_user.id %>
-          <% report_id =  post.get_report(current_user.id).ids%>
+          <% report_id =  post.find_report(current_user.id).ids%>
           <div class="btn-group">
             <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Reported
@@ -43,7 +43,7 @@
               <%= link_to 'Delete Report', report_path(:id => report_id), method: :delete, data: { confirm: 'Are you sure?' }, remote: true, class: 'dropdown-item' %>
             </div>
           </div>
-        <% elsif %>
+        <% else %>
           <button type="button" class="btn btn-warning"><%= link_to 'Report', new_post_report_path(:post_id => post.id) %></button>
         <% end %>
 
@@ -52,7 +52,7 @@
 
     <% end %>
 
-    <% if post.user_id == current_user.id %>
+    <% if owner?(post) %>
       <button type="button" class="btn btn-light"><%= link_to 'Edit', edit_post_path(post) %></button>
     <% end %>
 
@@ -64,11 +64,11 @@
       <% end %>
     <% end %>
 
-    <% if post.user_id == current_user.id || current_user.moderator? %>
+    <% if post_delete_btn?(post) %>
       <button type="button" class="btn btn-danger"><%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %></button>
     <% end %>
   </article>
-  <% if page == "post-show" && post.published? %>
+  <% if show_comments?(page, post) %>
     <hr>
     <h3>Add Comments</h3><br>
     <div id = 'comments-section'>
