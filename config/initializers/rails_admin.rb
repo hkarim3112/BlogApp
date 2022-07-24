@@ -31,6 +31,14 @@ RailsAdmin.config do |config|
     visible false
   end
 
+  config.model 'User' do
+    edit do
+      field :role do
+        visible true
+      end
+    end
+  end
+
   # making application controller parent of RailsAdmin MainController
   config.parent_controller = '::ApplicationController'
 
@@ -50,7 +58,9 @@ RailsAdmin.config do |config|
     export
     bulk_delete
     show
-    # edit
+    edit do
+      only [User]
+    end
     delete
     show_in_app
 
