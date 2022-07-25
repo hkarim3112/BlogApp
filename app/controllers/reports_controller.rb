@@ -46,15 +46,18 @@ class ReportsController < ApplicationController
   private
 
   def page
-    case @report.reportable_type
+    record = @report.reportable
+    case record.class.name
     when 'Post'
-      @go_to_page = @report.reportable
+      @go_to_page = record
     when 'Comment'
-      case @report.reportable.commentable_type
+      record = record.commentable
+      case record.class.name
       when 'Post'
-        @go_to_page = @report.reportable.commentable
+        @go_to_page = record
       when 'Comment'
-        @go_to_page = @report.reportable.commentable.commentable
+        record = record.commentable
+        @go_to_page = record
       end
     end
     redirect_to @go_to_page, notice: 'Reported.'

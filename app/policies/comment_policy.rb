@@ -22,27 +22,29 @@ class CommentPolicy < ApplicationPolicy
   end
 
   def create?
-    @commentable = @comment.commentable
-    post_auth
+    record = @comment.commentable
+    post_auth(record)
   end
 
   private
 
-  def post_auth
-    case @commentable.class.name
+  def post_auth(record)
+    case record.class.name
     when 'Post'
-      @commentable.published?
+      record.published?
     when 'Comment'
-      @commentable.commentable.published?
+      record.commentable.published?
     end
   end
 
   def commentable_owner?
-    case @comment.commentable_type
+    record = @comment.commentable
+    case record.class.name
     when 'Post'
-      @comment.commentable.user_id == @user.id
+      record.user_id == @user.id
     when 'Comment'
-      @comment.commentable.user_id == @user.id || @comment.commentable.commentable.user_id == @user.id
+      post = record.commentable
+      record.user_id == @user.id || post.user_id == @user.id
     end
   end
 end

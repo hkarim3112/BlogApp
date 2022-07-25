@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 module CommentsHelper
-  def commentable_owner?(commentable)
-    case commentable.class.name
+  def commentable_owner?(record)
+    case record.class.name
     when 'Post'
-      commentable.user_id == current_user.id
+      record.user_id == current_user.id
     when 'Comment'
-      commentable.user_id == current_user.id || commentable.commentable.user_id == current_user.id
+      record.user_id == current_user.id || record.commentable.user_id == current_user.id
     end
   end
 

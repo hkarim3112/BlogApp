@@ -57,11 +57,13 @@ class CommentsController < ApplicationController
   private
 
   def update_page
-    case @comment.commentable_type
+    record = @comment.commentable
+    case record.class.name
     when 'Post'
-      redirect_to @comment.commentable, notice: 'comment updated.'
+      redirect_to record, notice: 'comment updated.'
     when 'Comment'
-      redirect_to @comment.commentable.commentable, notice: 'comment updated.'
+      record = record.commentable
+      redirect_to record, notice: 'comment updated.'
     end
   end
 
