@@ -30,26 +30,19 @@ class ReportPolicy < ApplicationPolicy
   end
 
   def create?
-    @report.user_id != @user.id && !@report.reported?(@user.id) && reportable_auth
+    @record = @report.reportable
+    @record.user_id != @user.id && !@record.reported?(@user.id) && reportable_auth
   end
 
   private
 
   def reportable_auth
-    case @report.class.name
+    case @record.class.name
     when 'Post'
-      @report.published?
+      @record.published?
     when 'Comment'
-      @report = @report.commentable
+      @record = @record.commentable
       reportable_auth
-      # @report.commentable.published?
     end
-  end
-
-  class Scope < Scope
-    # NOTE: Be explicit about which records you allow access to!
-    # def resolve
-    #   scope.all
-    # end
   end
 end

@@ -1,16 +1,18 @@
 <tr>
-  <th scope = "row"><%= report.id %></td>
   <td><%= report.report_type %></td>
 
-  <% case report.reportable_type %>
+  <% record = report.reportable %>
+  <% case record.class.name %>
   <% when 'Post' %>
-    <td class = "reportable-cell"><%= link_to report.reportable_type + "_" + report.reportable_id.to_s, post_path(:id => report.reportable_id) %></td>
+    <td class = "reportable-cell"><%= link_to report.reportable_type, post_path(record) %></td>
   <% when 'Comment' %>
-    <% case report.reportable.commentable_type %>
+    <% record = record.commentable %>
+    <% case record.class.name %>
     <% when 'Post' %>
-      <td class = "reportable-cell"><%= link_to report.reportable_type + "_" + report.reportable_id.to_s, post_path(:id => report.reportable.commentable_id) %></td>
+      <td class = "reportable-cell"><%= link_to report.reportable_type, post_path(record) %></td>
     <% when 'Comment' %>
-      <td class = "reportable-cell"><%= link_to report.reportable_type + "_reply_" + report.reportable_id.to_s, post_path(:id => report.reportable.commentable.commentable_id) %></td>
+      <% record = record.commentable %>
+      <td class = "reportable-cell"><%= link_to report.reportable_type + "_reply", post_path(record) %></td>
     <% end %>
   <% end %>
 

@@ -1,68 +1,48 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # concern :reportable do
-  #   resource :reports, except: %i[show], shallow: true
-  # end
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
-  resources :reports, except: %i[new create show index]
+  devise_for :users
 
-  resources :comments, except: %i[new create show index] do
+  devise_scope :user do
+    authenticated :user do
+      root 'posts#index'
+    end
+    unauthenticated do
+      root 'devise/sessions#new'
+    end
+  end
+
+  resources :reports, only: %i[index edit update destroy]
+
+  resources :comments, only: %i[edit update destroy] do
     member do
-      put 'like' => 'comments#vote'
+      put :like, to: 'comments#vote'
     end
     resources :reports, only: %i[new create]
     resources :comments, only: %i[new create]
   end
 
-  # concern :commentable do
-  #   resource :comments, shallow: true do
-  #     member do
-  #       put 'like' => 'comments#vote'
-  #     end
-  #     concerns :reportable
-  #   end
-  # end
-
-  # resources :comments, shallow: true, path: '/' do
-  #   member do
-  #     put 'like' => 'comments#vote'
-  #   end
-  #   concerns :commentable
-  #   concerns :reportable
-  # end
-
-  get 'reports/index'
-  get 'dashboard/index'
-  get 'dashboard/user_report'
-  get 'dashboard/user_suggestions'
-
   resources :posts do
     member do
-      put 'like' => 'posts#vote'
-      get 'new_suggestion' => 'comments#new_suggestion'
-      get 'suggestions' => 'posts#suggestions'
+      put :like, to: 'posts#vote'
+      get :new_suggestion, to: 'comments#new_suggestion'
+      get :suggestions, to: 'posts#suggestions'
     end
     resources :reports, only: %i[new create]
     resources :comments, only: %i[create]
-    # concerns :reportable, :commentable
   end
 
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  devise_for :users
-  devise_scope :user do
-    authenticated :user do
-      # root 'dashboard#index'
-      root 'posts#index' # , as: :authenticated_root
-    end
-    unauthenticated do
-      root 'devise/sessions#new' # , as: :unauthenticated_root
-    end
-  end
+  resources :dashboard, only: [:index]
 
-  get '/moderator', to: 'moderators#index'
-  get '/publish', to: 'moderators#publish'
-  get '/unpublish', to: 'moderators#unpublish'
+  get :user_report, to: 'dashboard#user_report'
+  get :user_suggestions, to: 'dashboard#user_suggestions'
+
+  resources :moderators, only: [:index]
+
+  get :publish, to: 'moderators#publish'
+  get :unpublish, to: 'moderators#unpublish'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

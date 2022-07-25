@@ -10,7 +10,6 @@ class ReportsController < ApplicationController
   end
 
   def new
-    authorize @reportable, policy_class: ReportPolicy
     @report = current_user.reports.build
   end
 
@@ -19,9 +18,9 @@ class ReportsController < ApplicationController
   end
 
   def create
-    authorize @reportable, policy_class: ReportPolicy
     @report = @reportable.reports.new(report_params)
     @report.user = current_user
+    authorize @report, policy_class: ReportPolicy
     if @report.save
       page
     else
@@ -41,28 +40,27 @@ class ReportsController < ApplicationController
   def destroy
     authorize @report
     @report.destroy
-    respond_to do |format|
-      format.js { render inline: 'location.reload();' }
-    end
+    render inline: 'location.reload();'
   end
 
   private
 
   def page
-    case @report.reportable_type
+    record = @report.reportable
+    case record.class.name
     when 'Post'
-      @go_to_page = @report.reportable
+      @go_to_page = record
     when 'Comment'
-      case @report.reportable.commentable_type
+      record = record.commentable
+      case record.class.name
       when 'Post'
-        @go_to_page = @report.reportable.commentable
+        @go_to_page = record
       when 'Comment'
-        @go_to_page = @report.reportable.commentable.commentable
+        record = record.commentable
+        @go_to_page = record
       end
     end
-    respond_to do |format|
-      format.html { redirect_to @go_to_page, notice: 'Reported.' }
-    end
+    redirect_to @go_to_page, notice: 'Reported.'
   end
 
   def set_report

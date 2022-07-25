@@ -7,7 +7,7 @@
       <ul class="nav navbar-nav">
         <li class = "navbar-item"><%= link_to "Home",  posts_path, class: 'nav-link'%></li>
         <% if current_user.moderator? %>
-          <li class = "navbar-item"><%= link_to "Moderator-Panel", moderator_path, class: 'nav-link' %></li>
+          <li class = "navbar-item"><%= link_to "Moderator-Panel", moderators_path, class: 'nav-link' %></li>
         <% elsif current_user.admin? %>
           <li class = "navbar-item"><%= link_to "Admin-Panel", '/admin', class: 'nav-link' %></li>
         <% end %>

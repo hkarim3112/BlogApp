@@ -1,8 +1,5 @@
-<%= link_to 'javascript:history.back()' do%>
-  <i class="fa fa-arrow-left"> Back</i>
-<% end %>
-<br><br>
+<%= render partial: 'posts/previous_page' %>
 
 <h1>Editing Comment</h1>
 
-<%= render 'form', commentable: @commentable, comment: @comment, id: "edit" %>
+<%= render 'form', commentable: @commentable, comment: @comment, id: 'edit' %>

@@ -1,6 +1,3 @@
-<%= link_to 'javascript:history.back()' do%>
-  <i class="fa fa-arrow-left"> Back</i>
-<% end %>
-<br><br>
+<%= render partial: 'posts/previous_page' %>
 
 <%= render @post, page: "post-show" %>

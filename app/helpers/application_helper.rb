@@ -6,10 +6,10 @@ module ApplicationHelper
   end
 
   def reported?(reportable)
-    get_report(reportable).exists?
+    find_report(reportable).exists?
   end
 
-  def get_report(reportable)
+  def find_report(reportable)
     reportable.reports.where(user_id: current_user.id)
   end
 end

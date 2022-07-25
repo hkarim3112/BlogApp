@@ -3,4 +3,4 @@
 <% else %>
   $("#post_<%= @post.id %>_btn").removeClass('liked');
 <% end %>
-$("#post_<%= @post.id %>_count").html("<%= pluralize(@post.get_upvotes.size, "like") %>")
+$("#post_<%= @post.id %>_count").html("<%= pluralize(@post.cached_votes_up, "like") %>")

@@ -2,6 +2,4 @@
 
 <%= render 'form', report: @report, reportable: @reportable %>
 
-<%= link_to 'javascript:history.back()' do%>
-  Back
-<% end %>
+<%= render partial: 'posts/previous_page' %>
