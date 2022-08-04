@@ -1,7 +1,21 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  type: 1
+testreport1:
+  report_type: 0
+  user: validUser
+  reportable: blog1 (Post)
 
-two:
-  type: 1
+testreport2:
+  report_type: 1
+  user: validUser
+  reportable: testcomment1 (Comment)
+
+testreport3:
+  report_type: 2
+  user: validUser2
+  reportable: blog1 (Post)
+
+testreport4:
+  report_type: 1
+  user: validUser2
+  reportable: testcomment1 (Comment)

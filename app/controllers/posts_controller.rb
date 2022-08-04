@@ -42,7 +42,7 @@ class PostsController < ApplicationController
     authorize @post
     @post.destroy
 
-    redirect_back fallback_location: posts_url, notice: 'Post was successfully destroyed.'
+    redirect_back fallback_location: root_path, notice: 'Post was successfully destroyed.'
   end
 
   def vote

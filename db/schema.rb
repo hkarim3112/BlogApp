@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2022_07_12_215134) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.text "content"
+    t.text "content", null: false
     t.bigint "user_id"
     t.string "commentable_type"
     t.bigint "commentable_id"
@@ -50,8 +50,8 @@ ActiveRecord::Schema.define(version: 2022_07_12_215134) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string "title"
-    t.text "content"
+    t.string "title", null: false
+    t.text "content", null: false
     t.integer "status", default: 0
     t.bigint "user_id"
     t.datetime "created_at", null: false
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 2022_07_12_215134) do
   end
 
   create_table "reports", force: :cascade do |t|
-    t.integer "report_type", default: 0
+    t.integer "report_type", default: 0, null: false
     t.bigint "user_id"
     t.string "reportable_type"
     t.bigint "reportable_id"
@@ -77,8 +77,8 @@ ActiveRecord::Schema.define(version: 2022_07_12_215134) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.string "name"
-    t.integer "role", default: 0
+    t.string "name", null: false
+    t.integer "role", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "confirmation_token"

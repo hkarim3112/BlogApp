@@ -32,8 +32,8 @@
         <i class = 'fa fa-thumbs-up'> Like</i>
       <% end %>
       <% if !owner?(post) %>
-        <% if post.reported? current_user.id %>
-          <% report_id =  post.find_report(current_user.id).ids%>
+        <% if reported?(post) %>
+          <% report_id =  find_report(post).ids%>
           <div class="btn-group">
             <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Reported

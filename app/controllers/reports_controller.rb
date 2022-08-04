@@ -21,20 +21,14 @@ class ReportsController < ApplicationController
     @report = @reportable.reports.new(report_params)
     @report.user = current_user
     authorize @report, policy_class: ReportPolicy
-    if @report.save
-      page
-    else
-      format.html { render :new, status: :unprocessable_entity }
-    end
+    @report.save
+    page
   end
 
   def update
     authorize @report
-    if @report.update(report_params)
-      page
-    else
-      format.html { render :edit, status: :unprocessable_entity }
-    end
+    @report.update(report_params)
+    page
   end
 
   def destroy

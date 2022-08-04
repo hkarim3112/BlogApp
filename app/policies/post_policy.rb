@@ -9,14 +9,6 @@ class PostPolicy < ApplicationPolicy
     super
   end
 
-  def index?
-    true
-  end
-
-  def new?
-    true
-  end
-
   def update?
     @user.id == @post.user_id
   end
@@ -25,16 +17,8 @@ class PostPolicy < ApplicationPolicy
     update?
   end
 
-  def show?
-    true
-  end
-
   def destroy?
     update? || @user.moderator?
-  end
-
-  def create?
-    true
   end
 
   def vote?
