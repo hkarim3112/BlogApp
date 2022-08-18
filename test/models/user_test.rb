@@ -8,7 +8,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'valid user' do
-    assert @user.valid?, 'invalid user'
+    assert @user.valid?
   end
 
   test 'invalid without name' do

@@ -11,9 +11,9 @@ class ReportTest < ActiveSupport::TestCase
     assert @report.valid?
   end
 
-  test 'valid without report_type' do
+  test 'invalid without report_type' do
     @report.report_type = nil
-    assert @report.valid?
+    assert_not @report.valid?
   end
 
   test 'invalid without user' do
