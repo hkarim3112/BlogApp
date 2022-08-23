@@ -7,6 +7,8 @@ class Report < ApplicationRecord
     spam: 2
   }
 
+  validates :report_type, inclusion: { in: report_types.keys }
+
   belongs_to :user
   belongs_to :reportable, polymorphic: true
 end

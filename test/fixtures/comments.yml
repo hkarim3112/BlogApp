@@ -4,8 +4,22 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+testcomment1:
+  content: 1st comment
+  user: validUser2
+  commentable: blog1 (Post)
+
+testcomment2:
+  content: 2nd comment
+  user: validUser
+  commentable: blog1 (Post)
+
+testcomment3:
+  content: 3rd comment
+  user: validUser
+  commentable: testcomment1 (Comment)
+
+testcomment4:
+  content: 4th comment
+  user: validUser2
+  commentable: testcomment1 (Comment)

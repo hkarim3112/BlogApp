@@ -8,12 +8,4 @@ class Comment < ApplicationRecord
   belongs_to :commentable, polymorphic: true
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :reports, as: :reportable, dependent: :destroy
-
-  def reported?(user_id)
-    find_report(user_id).exists?
-  end
-
-  def find_report(user_id)
-    reports.where(user_id: user_id)
-  end
 end

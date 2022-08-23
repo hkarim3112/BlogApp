@@ -1,9 +1,16 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  title: MyString
+blog1:
+  title: Post1
   content: MyText
+  user: validUser
 
-two:
-  title: MyString
+blog2:
+  title: Post2
   content: MyText
+  user: validUser
+
+blog3:
+  title: Post3
+  content: MyText
+  user: validUser2

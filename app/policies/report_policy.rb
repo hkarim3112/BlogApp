@@ -13,10 +13,6 @@ class ReportPolicy < ApplicationPolicy
     @user.moderator?
   end
 
-  def new?
-    create?
-  end
-
   def update?
     @user.id == @report.user_id
   end
@@ -31,7 +27,7 @@ class ReportPolicy < ApplicationPolicy
 
   def create?
     @record = @report.reportable
-    @record.user_id != @user.id && !@record.reported?(@user.id) && reportable_auth
+    @record.user_id != @user.id && !reported?(@record) && reportable_auth
   end
 
   private
@@ -44,5 +40,13 @@ class ReportPolicy < ApplicationPolicy
       @record = @record.commentable
       reportable_auth
     end
+  end
+
+  def reported?(reportable)
+    find_report(reportable).exists?
+  end
+
+  def find_report(reportable)
+    reportable.reports.where(user_id: @user.id)
   end
 end

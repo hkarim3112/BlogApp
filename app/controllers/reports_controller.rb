@@ -24,7 +24,7 @@ class ReportsController < ApplicationController
     if @report.save
       page
     else
-      format.html { render :new, status: :unprocessable_entity }
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -33,7 +33,7 @@ class ReportsController < ApplicationController
     if @report.update(report_params)
       page
     else
-      format.html { render :edit, status: :unprocessable_entity }
+      render :edit, status: :unprocessable_entity
     end
   end
 
