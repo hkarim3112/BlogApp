@@ -24,8 +24,8 @@ document.addEventListener('trix-attachment-add', function (event) {
         return false;
       } else {
         return event.attachment.setAttributes({
-          url: `/rails/active_storage/blobs/${attributes.signed_id}/${attributes.filename}`,
-          href: `/rails/active_storage/blobs/${attributes.signed_id}/${attributes.filename}`,
+          url: `http://${location.host}/rails/active_storage/blobs/${attributes.signed_id}/${attributes.filename}`,
+          href: `http://${location.host}/rails/active_storage/blobs/${attributes.signed_id}/${attributes.filename}`,
           width: `650`,
           height: `650`,
         });
